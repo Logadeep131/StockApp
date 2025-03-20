@@ -1,4 +1,4 @@
-
+/* Reset and Global Styles */
 body, html {
     margin: 0;
     padding: 0;
@@ -6,13 +6,14 @@ body, html {
     font-family: Arial, sans-serif;
 }
 
+/* Main container to ensure proper layout */
 .app-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-
+/* Header Styles */
 .header {
     background-color: #003366;
     color: #ffffff;
@@ -20,7 +21,17 @@ body, html {
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* Add space for content below fixed header */
+.content {
+    flex-grow: 1;
+    padding: 80px 16px 16px; /* Adjust padding to avoid overlap with fixed header */
 }
 
 /* Floating User Button Styles */
@@ -50,6 +61,7 @@ body, html {
     display: flex;
     justify-content: center;
     gap: 16px;
+    margin-top: 60px; /* Push navigation below fixed header */
 }
 
 .nav-link {
@@ -65,19 +77,14 @@ body, html {
     background-color: #005bb5;
 }
 
-
-.content {
-    flex-grow: 1;
-    padding: 16px;
-}
-
-
+/* Footer Styles */
 .footer {
     background-color: #003366;
     color: #ffffff;
     padding: 16px;
     text-align: center;
     font-size: 16px;
-    margin-top: auto;
+    position: fixed;
+    bottom: 0;
     width: 100%;
 }

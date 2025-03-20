@@ -23,22 +23,21 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch user data
+   
         const userRes = await fetch(`http://localhost:5050/users/${userId}`);
         if (!userRes.ok) throw new Error("Failed to fetch user data");
         const user = await userRes.json();
 
-        // Fetch holdings
+     
         const holdingsRes = await fetch(`http://localhost:5050/holdings?user_id=${userId}`);
         if (!holdingsRes.ok) throw new Error("Failed to fetch holdings");
         const holdingsData = await holdingsRes.json();
 
-        // Fetch watchlist
         const watchlistRes = await fetch(`http://localhost:5050/watchlist?user_id=${userId}`);
         if (!watchlistRes.ok) throw new Error("Failed to fetch watchlist");
         const watchlistData = await watchlistRes.json();
 
-        // Set state
+    
         setUserData(user);
         setHoldings(holdingsData);
         setWatchlist(watchlistData);
