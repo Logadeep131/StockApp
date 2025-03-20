@@ -21,22 +21,33 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Ensure deposit is not more than ₹1,00,000
     if (parseInt(formData.deposit) > 100000) {
       setMessage("Deposit amount cannot exceed ₹1,00,000");
       return;
     }
-
+ 
+    const userData = {
+        username: formData.username,
+        password: formData.password,
+        dob: formData.dob,
+        deposit: parseFloat(formData.deposit) || 0 
+    };
+ 
     try {
-      const response = await axios.post("http://localhost:5000/users", formData);
-      if (response.status === 201) {
-        setMessage("Registration successful! Redirecting to login...");
-        setTimeout(() => navigate("/login"), 2000); // Redirect after 2 sec
-      }
+        const response = await axios.post("http://localhost:8080/auth/register", userData, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+ 
+        if (response.status === 201) {
+            setMessage("Registration successful! Redirecting to login...");
+            setTimeout(() => navigate("/login"), 2000);
+        }
     } catch (error) {
-      setMessage("Error registering user.");
+        setMessage("Error registering user.");
     }
-  };
+};
 
   return (
     <div className="register-container">

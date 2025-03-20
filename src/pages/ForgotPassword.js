@@ -19,33 +19,30 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+ 
     try {
-      const response = await axios.get("http://localhost:5000/users");
-      const user = response.data.find(
-        (u) => u.username === formData.username && u.dob === formData.dob
-      );
-
-      if (!user) {
-        setMessage("Invalid username or DOB.");
-        return;
-      }
-
-      await axios.patch(`http://localhost:5000/users/${user.id}`, {
-        password: formData.newPassword,
+      const response = await axios.post("http://localhost:8080/auth/forgot-password", {
+        username: formData.username,
+        dob: formData.dob,
       });
-
-      setMessage("Password reset successfully!");
-      setTimeout(() => navigate("/login"), 1000);
+ 
+      if (response.data.password) {
+        setMessage(`Your password is: ${response.data.password}`);
+      } else {
+        setMessage("Password shown successfully!");
+      }
+ 
+      setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
-      setMessage("Error resetting password.");
+      // If the response contains an error object, extract its message
+      setMessage(error.response?.data?.error || "Error displaying password.");
     }
   };
 
   return (
     <div className="forgot-container">
       <div className="forgot-box">
-        <h2>Reset Your Password</h2>
+        <h2>Get Your Password</h2>
         {message && <p className="forgot-message">{message}</p>}
         <form onSubmit={handleSubmit}>
           <div className="input-group">
@@ -56,11 +53,8 @@ const ForgotPassword = () => {
             <label>Date of Birth:</label>
             <input type="date" name="dob" onChange={handleChange} required />
           </div>
-          <div className="input-group">
-            <label>New Password:</label>
-            <input type="password" name="newPassword" onChange={handleChange} required />
-          </div>
-          <button type="submit" className="forgot-button">Reset Password</button>
+          
+          <button type="submit" className="forgot-button">Show Password</button>
         </form>
         <p className="back-to-login">
           Remember your password?{" "}

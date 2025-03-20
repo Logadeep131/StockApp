@@ -20,26 +20,20 @@ const ChangePassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+ 
     try {
-      const response = await axios.get("http://localhost:5000/users");
-      const user = response.data.find(
-        (u) => u.username === formData.username && u.password === formData.oldPassword
-      );
-
-      if (!user) {
-        setMessage("Invalid username or old password.");
-        return;
-      }
-
-      await axios.patch(`http://localhost:5000/users/${user.id}`, {
-        password: formData.newPassword,
+      const response = await axios.post("http://localhost:8080/auth/change-password", formData, {
+        headers: { "Content-Type": "application/json" },
       });
-
-      setMessage("Password changed successfully!");
+ 
+      setMessage(response.data); // API sends success message
       setTimeout(() => navigate("/dashboard"), 2000);
     } catch (error) {
-      setMessage("Error changing password.");
+      if (error.response) {
+        setMessage(error.response.data); // Show error message from backend
+      } else {
+        setMessage("Error changing password.");
+      }
     }
   };
 

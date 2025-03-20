@@ -18,33 +18,32 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
+ 
     try {
-      // Check for admin login
       if (credentials.username === "admin" && credentials.password === "admin") {
         setMessage("Admin login successful!");
         setTimeout(() => navigate("/admin-dashboard"), 1000); // Redirect to Admin Dashboard
         return;
       }
 
-      // Normal user login
-      const response = await axios.get(`http://localhost:5000/users`);
-      const user = response.data.find(
-        (u) =>
-          u.username === credentials.username &&
-          u.password === credentials.password
-      );
-
-      if (user) {
-        setMessage("Login successful!");
-        setTimeout(() => navigate("/dashboard"), 1000); // Redirect to User Dashboard
-      } else {
-        setMessage("Invalid username or password.");
-      }
+      const response = await axios.post("http://localhost:8080/auth/login", credentials, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+ 
+        if (response.status === 200) {
+            setMessage("Login successful!");
+            setTimeout(() => navigate("/dashboard"), 1000); // Redirect to Dashboard
+        } else {
+            setMessage("Invalid username or password.");
+        }
     } catch (error) {
-      setMessage("Error logging in.");
+        setMessage("Error logging in.");
     }
-  };
+};
+ 
 
   return (
     <div className="login-container">
@@ -76,7 +75,7 @@ const Login = () => {
         <p className="forgot-password">
           Forgot your password?{" "}
           <button onClick={() => navigate("/forgot-password")} className="reset-button">
-            Reset Here
+            Get Password Here
           </button>
         </p>
       </div>
