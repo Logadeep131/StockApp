@@ -7,8 +7,6 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/Admindashboard";
 
-import Header from "./components/Header";
-import Footer from "./components/Footer";
 import Watchlist from "./pages/Watchlist";
 import Holding from "./pages/Holding";
 import Balance from "./pages/Balance";
@@ -59,7 +57,7 @@ const App = () => {
 
   return (
     <Router>
-      <Header />
+   
 
       {/* Authentication & Dashboard Routes */}
       <Routes>
@@ -87,7 +85,7 @@ const App = () => {
         </Routes>
       </div>
 
-      <Footer />
+   
     </Router>
   );
 };
