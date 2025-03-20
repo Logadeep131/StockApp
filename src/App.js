@@ -17,23 +17,41 @@ const userId = 2;
 
 const App = () => {
   const [userData, setUserData] = useState(null);
+  const [holdings, setHoldings] = useState([]);
+  const [watchlist, setWatchlist] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5050/users/${userId}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch user data");
-        return res.json();
-      })
-      .then((data) => {
-        setUserData(data);
+    const fetchData = async () => {
+      try {
+        // Fetch user data
+        const userRes = await fetch(`http://localhost:5050/users/${userId}`);
+        if (!userRes.ok) throw new Error("Failed to fetch user data");
+        const user = await userRes.json();
+
+        // Fetch holdings
+        const holdingsRes = await fetch(`http://localhost:5050/holdings?user_id=${userId}`);
+        if (!holdingsRes.ok) throw new Error("Failed to fetch holdings");
+        const holdingsData = await holdingsRes.json();
+
+        // Fetch watchlist
+        const watchlistRes = await fetch(`http://localhost:5050/watchlist?user_id=${userId}`);
+        if (!watchlistRes.ok) throw new Error("Failed to fetch watchlist");
+        const watchlistData = await watchlistRes.json();
+
+        // Set state
+        setUserData(user);
+        setHoldings(holdingsData);
+        setWatchlist(watchlistData);
         setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         setError(err.message);
         setLoading(false);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
 
   if (loading) return <p>Loading user data...</p>;
@@ -41,6 +59,9 @@ const App = () => {
 
   return (
     <Router>
+      <Header />
+
+      {/* Authentication & Dashboard Routes */}
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
@@ -50,22 +71,23 @@ const App = () => {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
       </Routes>
 
-      <div className="app-container">
-        <Header />
-        <nav className="navigation">
-          <Link to="/watchlist" className="nav-link">Watchlist</Link>
-          <Link to="/holding" className="nav-link">Holding</Link>
-          <Link to="/balance" className="nav-link">Balance</Link>
-        </nav>
-        <div className="content">
-          <Routes>
-            <Route path="/watchlist" element={<Watchlist watchlist={userData?.watchlist || []} />} />
-            <Route path="/holding" element={<Holding holdings={userData?.holdings || []} />} />
-            <Route path="/balance" element={<Balance balance={userData?.balance || 0} />} />
-          </Routes>
-        </div>
-        <Footer />
+      {/* Navigation */}
+      <nav className="navigation">
+        <Link to="/watchlist" className="nav-link">Watchlist</Link>
+        <Link to="/holding" className="nav-link">Holding</Link>
+        <Link to="/balance" className="nav-link">Balance</Link>
+      </nav>
+
+      {/* Main Content */}
+      <div className="content">
+        <Routes>
+          <Route path="/watchlist" element={<Watchlist watchlist={watchlist} />} />
+          <Route path="/holding" element={<Holding holdings={holdings} />} />
+          <Route path="/balance" element={<Balance balance={userData?.balance || 0} />} />
+        </Routes>
       </div>
+
+      <Footer />
     </Router>
   );
 };

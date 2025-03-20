@@ -10,7 +10,7 @@ const Watchlist = ({ watchlist }) => {
           {watchlist.length > 0 ? (
             <ul className="watchlist">
               {watchlist.map((stock, index) => (
-                <li key={index} className="watchlist-item">{stock}</li>
+                <li key={index} className="watchlist-item">{stock.symbol}</li>
               ))}
             </ul>
           ) : (

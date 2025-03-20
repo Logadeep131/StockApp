@@ -4,28 +4,36 @@
         "id": 1,
         "name": "John Doe",
         "avatar": "👤",
-        "balance": 10000,
-        "holdings": [
-          { "symbol": "AAPL", "shares": 10, "price": 150 },
-          { "symbol": "TSLA", "shares": 5, "price": 700 },
-          { "symbol": "MSFT", "shares": 8, "price": 280 },
-          { "symbol": "AMZN", "shares": 2, "price": 3300 }
-        ],
-        "watchlist": ["GOOGL", "META", "NVDA", "NFLX", "BABA"]
+        "balance": 10000
       },
       {
         "id": 2,
         "name": "Jane Doe",
         "avatar": "👩‍💼",
-        "balance": 15000,
-        "holdings": [
-          { "symbol": "NFLX", "shares": 8, "price": 400 },
-          { "symbol": "AMD", "shares": 20, "price": 110 },
-          { "symbol": "DIS", "shares": 15, "price": 120 },
-          { "symbol": "SPY", "shares": 10, "price": 400 }
-        ],
-        "watchlist": ["META", "NVDA", "INTC", "TSLA", "AAPL"]
+        "balance": 15000
       }
+    ],
+    "holdings": [
+      { "user_id": 1, "symbol": "AAPL", "shares": 10, "price": 150 },
+      { "user_id": 1, "symbol": "TSLA", "shares": 5, "price": 700 },
+      { "user_id": 1, "symbol": "MSFT", "shares": 8, "price": 280 },
+      { "user_id": 1, "symbol": "AMZN", "shares": 2, "price": 3300 },
+      { "user_id": 2, "symbol": "NFLX", "shares": 8, "price": 400 },
+      { "user_id": 2, "symbol": "AMD", "shares": 20, "price": 110 },
+      { "user_id": 2, "symbol": "DIS", "shares": 15, "price": 120 },
+      { "user_id": 2, "symbol": "SPY", "shares": 10, "price": 400 }
+    ],
+    "watchlist": [
+      { "user_id": 1, "symbol": "GOOGL" },
+      { "user_id": 1, "symbol": "META" },
+      { "user_id": 1, "symbol": "NVDA" },
+      { "user_id": 1, "symbol": "NFLX" },
+      { "user_id": 1, "symbol": "BABA" },
+      { "user_id": 2, "symbol": "META" },
+      { "user_id": 2, "symbol": "NVDA" },
+      { "user_id": 2, "symbol": "INTC" },
+      { "user_id": 2, "symbol": "TSLA" },
+      { "user_id": 2, "symbol": "AAPL" }
     ]
   }
   
